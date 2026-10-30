@@ -29,3 +29,17 @@ python3 /home/claude/bt/data_store.py unpack /home/claude/data/proj /home/claude
 ## After an incremental update
 
 `data_store.py pack` into `/home/claude/data/proj` (or `proj_holdout`), then copy the new `.b64` into this repo, commit and push. `project_write` only the updated `manifest.json` back to PAM.
+
+## Backtest scripts (added 30 Oct 2026)
+
+`scripts/` holds copies of the PAM backtest code so a rerun needs only this repo (no project reads):
+`data_store.py`, `pam_signals.py`, `pam_engine.py`, `test25.py`. Verified 30 Oct 2026: a fresh clone + unpack + `test25.py`
+reproduces `claude/backtests/test25-qqq-2007.md` exactly. The PAM project (`claude/scripts/`) stays the master copy;
+re-copy here if a script there changes.
+
+```bash
+git clone --depth 1 https://github.com/ccleow/pam_claude /home/claude/pam_claude
+mkdir -p /home/claude/bt /home/claude/data/proj && cp /home/claude/pam_claude/scripts/*.py /home/claude/bt/
+cp /home/claude/pam_claude/data/weekly_store.b64 /home/claude/data/proj/
+cd /home/claude/bt && python3 data_store.py unpack /home/claude/data/proj /home/claude/data/store && python3 test25.py
+```
